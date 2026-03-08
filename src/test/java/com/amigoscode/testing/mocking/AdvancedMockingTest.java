@@ -79,13 +79,13 @@ class AdvancedMockingTest {
 
 
     // TODO: 6 - Use spy() for partial mocking.
-    //  Create a real Order and spy on it:
-    //  Order realOrder = new Order("ORD-1", "CUST-1", 99.99);
-    //  Order spyOrder = spy(realOrder);
-    //  Verify that spyOrder.getAmount() returns 99.99 (real method call).
-    //  Override one method: when(spyOrder.getStatus()).thenReturn("OVERRIDDEN");
-    //  Assert spyOrder.getStatus() now returns "OVERRIDDEN".
-    //  Assert spyOrder.getAmount() still returns 99.99 (not overridden).
+    //  Create a real ArrayList and spy on it:
+    //  List<String> realList = new java.util.ArrayList<>();
+    //  List<String> spyList = spy(realList);
+    //  Add "item1" to spyList and verify size is 1 (real method call).
+    //  Override size(): when(spyList.size()).thenReturn(100);
+    //  Assert spyList.size() now returns 100.
+    //  Assert spyList.get(0) still returns "item1" (not overridden).
 
 
     // TODO: 7 - Use timeout() for verifying calls with a time limit.
