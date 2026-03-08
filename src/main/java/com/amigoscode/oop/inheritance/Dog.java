@@ -16,31 +16,43 @@ package com.amigoscode.oop.inheritance;
 
 // TODO: 1 - Make this class extend Animal.
 //   Change the class declaration so Dog inherits from Animal.
-public class Dog {
+public class Dog extends Animal {
 
     // TODO: 2 - Add a private field:
     //   - breed (String)
-
+    private String breed;
 
     // TODO: 3 - Create a constructor that takes name, age, and breed.
     //   Call super(name, age) to initialize the parent fields,
     //   then set the breed field.
-
+    public Dog(String name, int age, String breed) {
+        super(name, age);
+        this.breed = breed;
+    }
 
     // TODO: 4 - Override the makeSound() method to print:
     //   "<name> says: Woof! Woof!"
     //   Use the @Override annotation. You can access `name` because
     //   it is a protected field in Animal.
-
+    @Override
+    public void makeSound() {
+        System.out.println(name + " says: Woof! Woof!");
+    }
 
     // TODO: 5 - Add a fetch(String item) method specific to Dog.
     //   This method should print:
     //   "<name> fetches the <item>!"
     //   This method does not exist in Animal — it is unique to Dog.
-
+    public void fetch(String item) {
+        System.out.println(name + " fetches the " + item + "!");
+    }
 
     // TODO: 6 - Override toString() to return:
     //   "Dog{name='XXX', age=XXX, breed='XXX'}"
+    @Override
+    public String toString() {
+        return "Dog{name='" + name + "', age=" + age + ", breed='" + breed + "'}";
+    }
 
 
     public static void main(String[] args) {

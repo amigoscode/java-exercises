@@ -17,11 +17,17 @@ public class UnboundedWildcard {
     // TODO: 1 - Create a static method: void printList(List<?> list)
     //  It should iterate through the list and print each element.
     //  Note: elements come out as Object since the type is unknown.
-
+    public static void printList(List<?> list) {
+        for (Object element : list) {
+            System.out.println(element);
+        }
+    }
 
     // TODO: 2 - Create a static method: int getSize(List<?> list)
     //  It should return the size of any list, regardless of its type.
-
+    public static int getSize(List<?> list) {
+        return list.size();
+    }
 
     public static void main(String[] args) {
 
@@ -30,7 +36,16 @@ public class UnboundedWildcard {
         //  (b) List<Integer> with values 1, 2, 3
         //  (c) List<Double> with values 1.1, 2.2, 3.3
         //  Call printList() and getSize() with each of them.
+        List<String> strings = Arrays.asList("Hello", "World");
+        List<Integer> integers = Arrays.asList(1, 2, 3);
+        List<Double> doubles = Arrays.asList(1.1, 2.2, 3.3);
 
+        printList(strings);
+        System.out.println("Size: " + getSize(strings));
+        printList(integers);
+        System.out.println("Size: " + getSize(integers));
+        printList(doubles);
+        System.out.println("Size: " + getSize(doubles));
 
         // TODO: 4 - Demonstrate that you CANNOT add elements to a List<?>.
         //  Uncomment the code below, observe the compile error, then comment
@@ -39,7 +54,8 @@ public class UnboundedWildcard {
         // List<?> unknownList = Arrays.asList("a", "b", "c");
         // unknownList.add("d");       // Why does this not compile?
         // unknownList.add(1);         // Why does this not compile either?
-
+        // Adding is not allowed because the compiler doesn't know the actual type of the list.
+        // It could be List<String>, List<Integer>, or any other type, so no type is safe to add.
 
         // TODO: 5 - Demonstrate what you CAN do with List<?>:
         //  (a) Get the size
@@ -47,6 +63,13 @@ public class UnboundedWildcard {
         //  (c) Read elements as Object
         //  (d) Remove elements (by index or using clear())
         //  Write code showing at least two of these operations on a List<?>.
+        List<?> wildList = new java.util.ArrayList<>(Arrays.asList("x", "y", "z"));
+        System.out.println("Size: " + wildList.size());
+        System.out.println("Is empty: " + wildList.isEmpty());
+        Object first = wildList.get(0);
+        System.out.println("First element as Object: " + first);
+        wildList.clear();
+        System.out.println("After clear, size: " + wildList.size());
 
     }
 }

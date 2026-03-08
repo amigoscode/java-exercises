@@ -18,17 +18,28 @@ public class BankAccount {
     //   - accountNumber (String)
     //   - balance (double)
     //   - ownerName (String)
-
+    private String accountNumber;
+    private double balance;
+    private String ownerName;
 
     // TODO: 2 - Create a constructor that takes accountNumber, ownerName,
     //   and an initialBalance. Validate that initialBalance >= 0,
     //   throwing IllegalArgumentException if not. Assign all fields.
-
+    public BankAccount(String accountNumber, String ownerName, double initialBalance) {
+        if (initialBalance < 0) {
+            throw new IllegalArgumentException("Initial balance must be >= 0");
+        }
+        this.accountNumber = accountNumber;
+        this.ownerName = ownerName;
+        this.balance = initialBalance;
+    }
 
     // TODO: 3 - Create a getter method for balance (getBalance).
     //   Do NOT create a setter for balance — it should only change
     //   through deposit() and withdraw().
-
+    public double getBalance() {
+        return balance;
+    }
 
     // TODO: 4 - Create a deposit(double amount) method.
     //   - If amount <= 0, throw IllegalArgumentException with message
@@ -36,7 +47,14 @@ public class BankAccount {
     //   - Add amount to balance
     //   - Call the private logTransaction() helper with a descriptive message
     //   - Return the new balance
-
+    public double deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive");
+        }
+        balance += amount;
+        logTransaction("Deposited " + amount);
+        return balance;
+    }
 
     // TODO: 5 - Create a withdraw(double amount) method.
     //   - If amount <= 0, throw IllegalArgumentException with message
@@ -46,16 +64,32 @@ public class BankAccount {
     //   - Subtract amount from balance
     //   - Call the private logTransaction() helper with a descriptive message
     //   - Return the new balance
-
+    public double withdraw(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive");
+        }
+        if (amount > balance) {
+            throw new IllegalStateException("Insufficient funds");
+        }
+        balance -= amount;
+        logTransaction("Withdrew " + amount);
+        return balance;
+    }
 
     // TODO: 6 - Override toString() to return a string in the format:
     //   "BankAccount{accountNumber='XXX', ownerName='XXX', balance=XXX}"
-
+    @Override
+    public String toString() {
+        return "BankAccount{accountNumber='" + accountNumber + "', ownerName='" + ownerName + "', balance=" + balance + "}";
+    }
 
     // TODO: 7 - Create a private helper method logTransaction(String message)
     //   that prints the message to the console prefixed with
     //   "[Transaction Log] ". This method should NOT be accessible
     //   from outside the class.
+    private void logTransaction(String message) {
+        System.out.println("[Transaction Log] " + message);
+    }
 
 
     public static void main(String[] args) {

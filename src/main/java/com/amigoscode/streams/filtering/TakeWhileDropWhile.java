@@ -20,31 +20,37 @@ public class TakeWhileDropWhile {
 
         // TODO: 1 - Use takeWhile to take numbers from 'sortedNumbers' while they are < 5
         //           Print the result (should be 1, 2, 3, 4)
-
+        sortedNumbers.stream().takeWhile(n -> n < 5).forEach(System.out::println);
 
         // TODO: 2 - Use dropWhile to skip numbers from 'sortedNumbers' while they are < 5
         //           Print the result (should be 5, 6, 7, 8, 9, 10)
-
+        sortedNumbers.stream().dropWhile(n -> n < 5).forEach(System.out::println);
 
         // TODO: 3 - Combine takeWhile with other operations:
         //           From 'sortedNumbers', take numbers while < 7, then filter to keep
         //           only even numbers, and collect to a list
         //           Print the result
-
+        List<Integer> result = sortedNumbers.stream().takeWhile(n -> n < 7).filter(n -> n % 2 == 0).collect(Collectors.toList());
+        System.out.println(result);
 
         // TODO: 4 - Use takeWhile on 'words' to take words while they start with "a"
         //           Print each word taken
-
+        words.stream().takeWhile(w -> w.startsWith("a")).forEach(System.out::println);
 
         // TODO: 5 - Compare takeWhile vs filter on 'unsortedNumbers':
         //           First, use takeWhile(n -> n < 5) and print the result
         //           Then, use filter(n -> n < 5) and print the result
         //           Notice the different outputs - takeWhile stops at first non-match
-
+        System.out.println("takeWhile:");
+        unsortedNumbers.stream().takeWhile(n -> n < 5).forEach(System.out::println);
+        System.out.println("filter:");
+        unsortedNumbers.stream().filter(n -> n < 5).forEach(System.out::println);
 
         // TODO: 6 - Use dropWhile on 'logLevels' to skip all DEBUG entries,
         //           then collect the remaining entries to a list
         //           Print the result
+        List<String> remaining = logLevels.stream().dropWhile(l -> l.equals("DEBUG")).collect(Collectors.toList());
+        System.out.println(remaining);
 
     }
 }

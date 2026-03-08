@@ -25,34 +25,42 @@ public class MethodReferences {
         // TODO: 1 - Use a static method reference to create a
         //  Function<Integer, String> that converts an Integer to a String.
         //  Use String::valueOf. Apply it to the number 42 and print the result.
-
+        Function<Integer, String> intToString = String::valueOf;
+        System.out.println(intToString.apply(42));
 
         // TODO: 2 - Use an instance method reference on a specific object to
         //  create a java.util.function.Consumer<String>.
         //  Use System.out::println. Then call accept("Hello from method ref!").
-
+        java.util.function.Consumer<String> printer = System.out::println;
+        printer.accept("Hello from method ref!");
 
         // TODO: 3 - Use an instance method reference on the parameter to create
         //  a Function<String, String> that calls toUpperCase() on the input string.
         //  Use String::toUpperCase. Apply it to "hello" and print the result.
-
+        Function<String, String> upper = String::toUpperCase;
+        System.out.println(upper.apply("hello"));
 
         // TODO: 4 - Use a constructor reference to create a Supplier<ArrayList<String>>
         //  that creates a new empty ArrayList. Use ArrayList::new.
         //  Call get() and print the resulting list.
-
+        Supplier<ArrayList<String>> listSupplier = ArrayList::new;
+        System.out.println(listSupplier.get());
 
         List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
 
         // TODO: 5 - Use a method reference with forEach to print each name
         //  in the names list. Use System.out::println as the method reference.
-
+        names.forEach(System.out::println);
 
         // TODO: 6 - Compare lambda vs method reference side by side.
         //  Create two Function<String, Integer> variables:
         //    a) 'withLambda' using a lambda:          s -> s.length()
         //    b) 'withMethodRef' using method reference: String::length
         //  Apply both to "Hello" and print the results to confirm they are equal.
+        Function<String, Integer> withLambda = s -> s.length();
+        Function<String, Integer> withMethodRef = String::length;
+        System.out.println("Lambda: " + withLambda.apply("Hello"));
+        System.out.println("Method ref: " + withMethodRef.apply("Hello"));
 
     }
 }

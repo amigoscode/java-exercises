@@ -38,22 +38,26 @@ public class ReduceExercise {
         //           Total price for each order = price * quantity
         //           Map to total first, then reduce with Double::sum
         //           Print the result
-
+        double totalPrice = orders.stream().map(o -> o.price() * o.quantity()).reduce(0.0, Double::sum);
+        System.out.println(totalPrice);
 
         // TODO: 2 - Use reduce to build a comma-separated string from 'tags'
         //           Result should be: "java, streams, functional, programming, lambda"
         //           Use the single-argument reduce that returns Optional
-
+        tags.stream().reduce((a, b) -> a + ", " + b).ifPresent(System.out::println);
 
         // TODO: 3 - Use reduce to find the most expensive product in 'products'
         //           Compare by price in the accumulator
         //           Print the product name and price
-
+        products.stream().reduce((a, b) -> a.price() >= b.price() ? a : b)
+                .ifPresent(p -> System.out.println(p.name() + " " + p.price()));
 
         // TODO: 4 - Create a BinaryOperator<Order> variable that picks the order
         //           with the higher total value (price * quantity)
         //           Use this operator in reduce() and print the winning order
-
+        BinaryOperator<Order> higherTotal = (a, b) ->
+                a.price() * a.quantity() >= b.price() * b.quantity() ? a : b;
+        orders.stream().reduce(higherTotal).ifPresent(System.out::println);
 
         // TODO: 5 - Implement a collector-like operation with reduce:
         //           Use the 3-argument reduce(identity, accumulator, combiner)
@@ -61,13 +65,16 @@ public class ReduceExercise {
         //           Identity: 0, Accumulator: (sum, order) -> sum + order.quantity()
         //           Combiner: Integer::sum
         //           Print the total quantity
-
+        int totalQuantity = orders.stream().reduce(0, (sum, order) -> sum + order.quantity(), Integer::sum);
+        System.out.println(totalQuantity);
 
         // TODO: 6 - Use reduce with a combiner for a parallel stream:
         //           From 'orders', calculate the total revenue using a parallel stream
         //           Use the 3-argument reduce with identity 0.0,
         //           accumulator that adds price*quantity, and Double::sum as combiner
         //           Print the result
+        double totalRevenue = orders.parallelStream().reduce(0.0, (sum, o) -> sum + o.price() * o.quantity(), Double::sum);
+        System.out.println(totalRevenue);
 
     }
 }

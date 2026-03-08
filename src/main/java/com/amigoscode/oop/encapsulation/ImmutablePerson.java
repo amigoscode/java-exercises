@@ -19,30 +19,46 @@ public final class ImmutablePerson {
     //   - name (String)
     //   - age (int)
     //   - email (String)
-
+    private final String name;
+    private final int age;
+    private final String email;
 
     // TODO: 2 - Create a constructor that takes name, age, and email
     //   and assigns them to the fields. Since the fields are final,
     //   they can only be set here.
-
+    public ImmutablePerson(String name, int age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+    }
 
     // TODO: 3 - Create getter methods for all three fields:
     //   getName(), getAge(), getEmail().
     //   Do NOT create any setter methods — this class is immutable.
-
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getEmail() { return email; }
 
     // TODO: 4 - Create a withName(String newName) method that returns
     //   a NEW ImmutablePerson with the changed name but the same
     //   age and email. The original object must remain unchanged.
-
+    public ImmutablePerson withName(String newName) {
+        return new ImmutablePerson(newName, this.age, this.email);
+    }
 
     // TODO: 5 - Create a withAge(int newAge) method that returns
     //   a NEW ImmutablePerson with the changed age but the same
     //   name and email. The original object must remain unchanged.
-
+    public ImmutablePerson withAge(int newAge) {
+        return new ImmutablePerson(this.name, newAge, this.email);
+    }
 
     // TODO: 6 - Override toString() to return a string in the format:
     //   "ImmutablePerson{name='XXX', age=XXX, email='XXX'}"
+    @Override
+    public String toString() {
+        return "ImmutablePerson{name='" + name + "', age=" + age + ", email='" + email + "'}";
+    }
 
 
     public static void main(String[] args) {

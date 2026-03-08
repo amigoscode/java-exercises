@@ -13,25 +13,37 @@ package com.amigoscode.oop.abstractclasses;
  */
 
 // TODO: 1 - Make this class extend Shape.
-public class Circle {
+public class Circle extends Shape {
 
     // TODO: 2 - Declare a private field:
     //   - radius (double)
-
+    private double radius;
 
     // TODO: 3 - Create a constructor that takes a radius.
     //   Validate that radius > 0, throwing IllegalArgumentException if not.
     //   Assign the field.
-
+    public Circle(double radius) {
+        if (radius <= 0) {
+            throw new IllegalArgumentException("Radius must be > 0");
+        }
+        this.radius = radius;
+    }
 
     // TODO: 4 - Implement the area() method from Shape.
     //   Formula: Math.PI * radius * radius
     //   Use the @Override annotation.
-
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
 
     // TODO: 5 - Implement the perimeter() method from Shape.
     //   Formula: 2 * Math.PI * radius
     //   Use the @Override annotation.
+    @Override
+    public double perimeter() {
+        return 2 * Math.PI * radius;
+    }
 
 
     public static void main(String[] args) {

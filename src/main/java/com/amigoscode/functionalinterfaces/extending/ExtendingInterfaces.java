@@ -24,29 +24,34 @@ public class ExtendingInterfaces {
     //    @FunctionalInterface
     //    interface Transformer<T> extends Function<T, T> { }
 
-
     // TODO: 2 - Inside the Transformer interface, add a default method:
     //    default Transformer<T> andThenTransform(Transformer<T> after)
     //  This method should return a new Transformer that first applies 'this',
     //  then applies 'after' to the result.
     //  Hint: return input -> after.apply(this.apply(input));
-
+    @FunctionalInterface
+    interface Transformer<T> extends Function<T, T> {
+        default Transformer<T> andThenTransform(Transformer<T> after) {
+            return input -> after.apply(this.apply(input));
+        }
+    }
 
     public static void main(String[] args) {
 
         // TODO: 3 - Create a Transformer<String> called 'trimmer' that trims
         //  whitespace from a string using String::trim or s -> s.trim().
-
+        Transformer<String> trimmer = String::trim;
 
         // TODO: 4 - Create a Transformer<String> called 'lowerCaser' that
         //  converts a string to lowercase.
-
+        Transformer<String> lowerCaser = s -> s.toLowerCase();
 
         // TODO: 5 - Chain 'trimmer' and 'lowerCaser' using andThenTransform()
         //  to create a Transformer<String> called 'cleanUp'. Apply it to
         //  "  HELLO WORLD  " and print the result.
         //  Expected: "hello world"
-
+        Transformer<String> cleanUp = trimmer.andThenTransform(lowerCaser);
+        System.out.println(cleanUp.apply("  HELLO WORLD  "));
 
         List<String> messyStrings = Arrays.asList(
                 "  Alice  ", "BOB", "  Charlie ", " DIANA  "
@@ -56,6 +61,8 @@ public class ExtendingInterfaces {
         //  messyStrings and collect the results into a new List<String>.
         //  Print the cleaned-up list.
         //  Hint: messyStrings.stream().map(cleanUp).collect(...)
+        List<String> cleaned = messyStrings.stream().map(cleanUp).collect(Collectors.toList());
+        System.out.println(cleaned);
 
     }
 }

@@ -48,40 +48,55 @@ public class CollectorsExercise {
         //           Use Collectors.toUnmodifiableList() or stream .toList()
         //           Print the result and try to verify it's unmodifiable
         //           (optional: try adding to it and catch UnsupportedOperationException)
-
+        List<String> unmodifiable = names.stream().collect(Collectors.toUnmodifiableList());
+        System.out.println(unmodifiable);
 
         // TODO: 2 - Collect 'people' to a Map where key is name and value is age
         //           Use Collectors.toMap(Person::name, Person::age)
         //           Print the resulting map
-
+        Map<String, Integer> nameToAge = people.stream().collect(Collectors.toMap(Person::name, Person::age));
+        System.out.println(nameToAge);
 
         // TODO: 3 - Handle duplicate keys in toMap:
         //           Collect 'peopleWithDuplicateCities' to a Map<String, String>
         //           where key is city and value is name
         //           Since London appears twice, use a merge function: (name1, name2) -> name1 + ", " + name2
         //           Print the result
-
+        Map<String, String> cityToNames = peopleWithDuplicateCities.stream()
+                .collect(Collectors.toMap(Person::city, Person::name, (name1, name2) -> name1 + ", " + name2));
+        System.out.println(cityToNames);
 
         // TODO: 4 - Collect 'people' to a ConcurrentMap using Collectors.toConcurrentMap()
         //           Key: name, Value: city
         //           Print the result and its class name
-
+        ConcurrentMap<String, String> concurrentMap = people.stream()
+                .collect(Collectors.toConcurrentMap(Person::name, Person::city));
+        System.out.println(concurrentMap);
+        System.out.println(concurrentMap.getClass().getName());
 
         // TODO: 5 - Use Collectors.partitioningBy to split 'numbers' into
         //           even (true) and odd (false) groups
         //           Print both partitions
-
+        Map<Boolean, List<Integer>> partitioned = numbers.stream().collect(Collectors.partitioningBy(n -> n % 2 == 0));
+        System.out.println("Even: " + partitioned.get(true));
+        System.out.println("Odd: " + partitioned.get(false));
 
         // TODO: 6 - Use Collectors.collectingAndThen to collect 'names' to a list
         //           and then transform the result to its size (count)
         //           Hint: collectingAndThen(Collectors.toList(), List::size)
         //           Print the result
-
+        int count = names.stream().collect(Collectors.collectingAndThen(Collectors.toList(), List::size));
+        System.out.println(count);
 
         // TODO: 7 - Use Collectors.teeing() (Java 12+) to compute both the sum
         //           and count of 'numbers' simultaneously, then calculate the average
         //           teeing(Collectors.summingInt(...), Collectors.counting(), (sum, count) -> ...)
         //           Print the calculated average
+        double average = numbers.stream().collect(Collectors.teeing(
+                Collectors.summingInt(Integer::intValue),
+                Collectors.counting(),
+                (sum, cnt) -> (double) sum / cnt));
+        System.out.println(average);
 
     }
 }
