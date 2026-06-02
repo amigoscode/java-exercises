@@ -68,7 +68,8 @@ public class TypeCasting {
         System.out.println("---------------------------------------------");
         System.out.println("Convert an int 42 to a String using String.valueOf()");
         int todoSixInt = 42;
-        System.out.println(String.valueOf(todoSixInt));
+        String todoSixIntString = String.valueOf(todoSixInt);
+        System.out.println(todoSixIntString);
 
     }
 }
