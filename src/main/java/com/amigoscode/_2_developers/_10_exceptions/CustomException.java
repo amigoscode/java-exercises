@@ -2,7 +2,7 @@ package com.amigoscode._2_developers._10_exceptions;
 
 /**
  * Custom Exception Exercises
- *
+ * <p>
  * Practice creating custom checked and unchecked exceptions, throwing them
  * from methods, catching them, and using exception chaining.
  */
@@ -25,6 +25,15 @@ public class CustomException {
     //  - Have a constructor that takes a String message and a Throwable cause,
     //    and calls super(message, cause)
     //  Define it as a static inner class here.
+    public static class InvalidAgeException extends RuntimeException {
+        public InvalidAgeException(String message) {
+            super(message);
+        }
+
+        public InvalidAgeException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
 
 
     // TODO: 3 - Create a static inner class BankAccount with:
@@ -35,11 +44,38 @@ public class CustomException {
     //    message and the shortfall amount (amount - balance).
     //    Otherwise, subtract amount from balance.
     //  - A method: double getBalance()
+    public static class BankAccount {
+        private double balance;
+
+        public BankAccount(double initialBalance) {
+            this.balance = initialBalance;
+        }
+
+        public void withdraw(double amount) throws InsufficientFundsException {
+            if (amount > this.balance) {
+                throw new InsufficientFundsException("The amount you entered is larger than your current balance",
+                        (amount - this.balance));
+            }
+
+            this.balance = amount - this.balance;
+        }
+
+        public double getBalance() {
+            return this.balance;
+        }
+    }
 
 
     // TODO: 4 - Create a static method: void validateAge(int age)
     //  If age < 0 or age > 150, throw a new InvalidAgeException with an appropriate message.
     //  Otherwise, print "Age " + age + " is valid."
+    public static void validateAge(int age) {
+        if (age < 0 || age > 150) {
+            throw new InvalidAgeException("Age is greater than or less than the provided age range of 0 to 150");
+        }
+
+        System.out.println("Age " + age + " is valid.");
+    }
 
 
     public static void main(String[] args) {
@@ -50,7 +86,18 @@ public class CustomException {
         //  Catch the exception and print its message and the shortage amount.
         //  Also try validateAge with valid (25) and invalid (-5) values,
         //  catching InvalidAgeException.
+        BankAccount myAccount = new BankAccount(100);
+        try {
+            myAccount.withdraw(50);
+            System.out.println(myAccount.getBalance());
+            myAccount.withdraw(75);
+            System.out.println(myAccount.getBalance());
 
+            validateAge(25);
+            validateAge(-5);
+        } catch (InsufficientFundsException | InvalidAgeException e) {
+            System.out.println("Exception: " + e.getClass().getSimpleName() + "-" + e.getMessage());
+        }
 
         System.out.println("\n=== Exception Chaining ===");
         // TODO: 6 - Demonstrate exception chaining:
@@ -61,6 +108,15 @@ public class CustomException {
         //  In an outer try-catch, catch the InvalidAgeException and print:
         //  - The exception message
         //  - The cause (using getCause())
-
+        try {
+            try {
+                System.out.println(Integer.parseInt("abc"));
+            } catch (NumberFormatException e) {
+                throw new InvalidAgeException("Age must be a valid number", e);
+            }
+        } catch(InvalidAgeException e) {
+            System.out.println("Exception message: " + e.getMessage());
+            System.out.println("Cause: " + e.getCause());
+        }
     }
 }
