@@ -6,15 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * File Reading Exercises
- *
+ * <p>
  * Practice reading files using both the modern java.nio.file API and the
  * classic java.io API. Always use try-with-resources for readers and streams
  * to ensure they are properly closed.
- *
+ * <p>
  * NOTE: Before running these exercises, create a test file at "test-input.txt"
  * in the project root with several lines of text.
  */
@@ -30,7 +32,7 @@ public class FileReading {
     public static List<String> readAllLines(String filePath) throws IOException {
         // TODO: 1 - Use Files.readAllLines(Path.of(filePath)) to read all lines.
         //  Return the resulting List<String>.
-        return null;
+        return Files.readAllLines(Path.of(filePath));
     }
 
     /**
@@ -46,6 +48,14 @@ public class FileReading {
         //      read lines in a loop using reader.readLine() until it returns null.
         //      Print each line.
         //  }
+        try (
+                BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        ) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
 
     }
 
@@ -60,7 +70,14 @@ public class FileReading {
         // TODO: 3 - Read the file line by line and count the lines.
         //  You can use Files.readAllLines() and call .size(),
         //  or use Files.lines() with .count() for a stream-based approach.
-        return 0;
+
+        // First Approach
+        //  return Files.readAllLines(Path.of(filePath)).size();
+
+        // Second Approach - Better for bigger files
+        try (Stream<String> lines = Files.lines(Path.of(filePath))) {
+            return lines.count();
+        }
     }
 
     /**
@@ -76,7 +93,20 @@ public class FileReading {
         //  Filter the lines to only include those that contain the given word.
         //  Hint: use a for loop and an ArrayList to collect matching lines,
         //  or use Files.readAllLines().stream().filter(...).toList()
-        return null;
+
+        // 1st Approach
+//        List<String> files = Files.readAllLines(Path.of(filePath));
+//        List<String> matchingWords = new ArrayList<>();
+//        for (String file : files) {
+//            if (file.contains(word)) {
+//                matchingWords.add(file);
+//            }
+//        }
+//        return matchingWords;
+
+        // 2nd Approach
+        return Files.readAllLines(Path.of(filePath)).stream().filter(file -> file.contains(word)).toList();
+
     }
 
     /**
@@ -89,7 +119,7 @@ public class FileReading {
     public static String readFileAsString(String filePath) throws IOException {
         // TODO: 5 - Use Files.readString(Path.of(filePath)) to read the entire file
         //  as a single String. Return it.
-        return null;
+        return Files.readString(Path.of(filePath));
     }
 
     /**
@@ -103,6 +133,13 @@ public class FileReading {
         //  Catch FileNotFoundException (or NoSuchFileException) and return
         //  "File not found: " + filePath.
         //  Catch IOException and return "Error reading file: " + e.getMessage().
+        try {
+            return Files.readString(Path.of(filePath));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
         return null;
     }
 
@@ -116,12 +153,12 @@ public class FileReading {
         System.out.println("=== Read All Lines ===");
         List<String> lines = readAllLines(testFile);
         if (lines != null) lines.forEach(System.out::println);
-
         System.out.println("\n=== BufferedReader ===");
         readWithBufferedReader(testFile);
 
         System.out.println("\n=== Count Lines ===");
         System.out.println("Number of lines: " + countLines(testFile));
+
 
         System.out.println("\n=== Search Word ===");
         List<String> results = searchWord(testFile, "Java");
