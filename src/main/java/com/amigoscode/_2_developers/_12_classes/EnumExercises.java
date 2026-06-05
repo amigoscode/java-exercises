@@ -1,8 +1,10 @@
 package com.amigoscode._2_developers._12_classes;
 
+import java.util.Arrays;
+
 /**
  * Enum Exercises
- *
+ * <p>
  * Practice creating and using enums in Java. Enums are special classes that
  * represent a fixed set of constants. They can have fields, constructors,
  * and methods just like regular classes.
@@ -42,6 +44,19 @@ public class EnumExercises {
         //  For each season, print a message like "Spring: Flowers bloom"
         //  using the getDescription() method.
         //  Test with Season.SUMMER.
+        Season season = Season.WINTER;
+
+        switch (season) {
+            case WINTER:
+            case FALL:
+            case SUMMER:
+            case SPRING:
+                System.out.println(season.getDescription());
+                break;
+            default:
+                System.out.println("Invalid Season");
+                break;
+        }
 
 
         System.out.println("\n=== Iterate Over Enum Values ===");
@@ -49,6 +64,17 @@ public class EnumExercises {
         //  Loop through them and print each one with its description and ordinal.
         //  Example output: "0: SPRING - Flowers bloom"
         //  Also iterate over Priority.values() and print each with its level.
+        Season[] seasons = Season.values();
+        for(int i = 0; i < seasons.length; i++) {
+            System.out.println(i + ": " + seasons[i] + " - " + seasons[i].getDescription());
+        }
+
+        System.out.println("============");
+
+        Priority[] priorities = Priority.values();
+        for(int i = 0; i < priorities.length; i++) {
+            System.out.println(i + ": " + priorities[i] + " - " + priorities[i].getLevel());
+        }
 
     }
 }
